@@ -149,3 +149,6 @@ def scan_email():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+@app.route("/")
+def health_check():
+    return jsonify({"status": "OK", "message": "Backend đang hoạt động"}), 200
