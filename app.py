@@ -20,18 +20,18 @@ import random
 load_dotenv()  # Load biến môi trường từ .env
 app = Flask(__name__)
 CORS(app,
-     supports_credentials=True,
-     resources={r"/*": {"origins": "*"}},
+     supports_credentials=False,          # ← tắt credentials
+     resources={r"/*": {"origins": "*"}}, # ← cho phép từ mọi nguồn
      allow_headers=["Content-Type", "ngrok-skip-browser-warning", "Authorization"],
-     expose_headers=["Content-Type", "Authorization"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 )
 
 @app.after_request
 def add_cors_headers(response):
-    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Origin"] = "*"            # wildcard
     response.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,DELETE,OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization,ngrok-skip-browser-warning"
+    # không cần Allow-Credentials
     return response
 
 if not firebase_admin._apps:
