@@ -1,10 +1,7 @@
-# Bỏ file bí mật
 firebase/*.json
 .env
 
-# Python
 __pycache__/
 *.pyc
 
-# VSCode
 .vscode/
