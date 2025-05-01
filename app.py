@@ -19,20 +19,13 @@ import random
 # --- Khởi tạo ứng dụng Flask và CORS ---
 load_dotenv()  # Load biến môi trường từ .env
 app = Flask(__name__)
+
 CORS(app,
-     supports_credentials=False,          # ← tắt credentials
-     resources={r"/*": {"origins": "*"}}, # ← cho phép từ mọi nguồn
-     allow_headers=["Content-Type", "ngrok-skip-browser-warning", "Authorization"],
+     supports_credentials=False,
+     origins="*",  # ← Cho phép mọi nguồn
+     allow_headers=["Content-Type", "Authorization", "ngrok-skip-browser-warning"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 )
-
-@app.after_request
-def add_cors_headers(response):
-    response.headers["Access-Control-Allow-Origin"] = "*"            # wildcard
-    response.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,DELETE,OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization,ngrok-skip-browser-warning"
-    # không cần Allow-Credentials
-    return response
 
 if not firebase_admin._apps:
     firebase_cred_path = os.getenv('FIREBASE_CREDENTIAL_PATH')
@@ -284,3 +277,6 @@ def admin_assign_account():
             delete_account_and_user_links(aid)
 
     return jsonify({"success": False, "message": "Không tìm thấy tài khoản còn hoạt động."}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
