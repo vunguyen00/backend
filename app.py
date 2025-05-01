@@ -225,7 +225,7 @@ def check_cookie_session(cookie_input) -> bool:
             context = browser.new_context()
             context.add_cookies(cookies)
             page = context.new_page()
-            page.goto('https://www.netflix.com/browse', timeout=15000)
+            page.goto('https://www.netflix.com/browse', timeout=25000)
             active = '/browse' in page.url
             browser.close()
             return active
